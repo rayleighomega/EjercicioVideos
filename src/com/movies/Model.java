@@ -3,7 +3,7 @@ package com.movies;
 import java.util.*;
 
 /**
- * 
+ * ContentMedia class do not require any parameters to be initialize
  */
 public class Model extends ContentMedia
 {
@@ -15,63 +15,69 @@ public class Model extends ContentMedia
      */
     public Model()
     {
-
+        //Creates the fake database when the model object is created
     }
 
-
-    /**
-     * @param user
-     */
-
-    public boolean createContentMedia()
+    public List<Movie> getVideos(String userId)
     {
+        User dataObj = this.getData(userId); //Get the base object from the database
 
+        return dataObj.getMovies(); //get the useful field to the method
     }
 
-    public List<Movie> getVideos(String user)
+    public boolean postVideo(Movie movie)
     {
+        User dataObj = this.getData(userId); //Get the base object from the database
 
-        return
-    }
+        try
+        {
+            dataObj.addMovie(movie); //Add a new movie to the user object in the database
+        }
+        catch (ExceptionDatabase e)
+        {
+            throw new ExceptionDatabase("postVideo: Unable to add a movie into the database", e);
+        }
 
-    /**
-     * @param userId 
-     * @param movie 
-     * @return
-     */
-    public boolean postVideos(String userId, Movie movie) {
-
-        this
         return false;
     }
 
-    /**
-     * @param name 
-     * @param lastName 
-     * @return
-     */
-    public boolean checkUser(String name, String lastName)
+    public boolean checkUser(String name, String password)
     {
-        // TODO implement here
+        User user;
+
+        for (int i = 1 ; i <= this.countUsers(); i++)
+        {
+            user = this.getData(String.valueOf(i));
+            if (password.equals(user.getPassword()) && name.equals(user.getName())) //match
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
         return false;
     }
 
-    /**
-     * @param user 
-     * @param lastName 
-     * @param password 
-     * @param regDate 
-     * @return
-     */
     public String newUser(String name, String lastName, String password, String regDate) {
 
         User user = new User(name, lastName, password, regDate);
 
-        this.addUser(userId, user);
+        this.addData(userId, user);
 
         this.userId = String.valueOf(this.countUsers()+1);
 
         return "";
+    }
+
+    public class ExceptionDatabase extends RuntimeException
+    {
+        public ExceptionDatabase(String errorMessage, Throwable err)
+        {
+            super(errorMessage, err);
+        }
     }
 
 }

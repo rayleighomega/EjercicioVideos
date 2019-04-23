@@ -11,7 +11,7 @@ public class User
     private String lastName;
     private String password;
     private String regDate;
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
 
     /**
      * Default constructor
