@@ -51,7 +51,7 @@ public class Control
                 view.passInput();
                 password = scanner.next();
 
-                if(model.checkUser(userName, password))
+                if(model.checkUser(userName, password, "1")) //Option:1 Check user and pass, Option: 2 check only username
                 {
                     loginStatus = true;
                 }
@@ -63,18 +63,7 @@ public class Control
                 }
                 break;
             case "2":
-                view.registrationScreen();
-
-                view.userInput();
-                this.userName = scanner.next();
-
-                view.lastNameInput();
-                String lastName = scanner.next();
-
-                view.passInput();
-                password = scanner.next();
-
-                model.newUser(userName, lastName, password);
+                this.registerUser();
         }
 
 
@@ -96,7 +85,7 @@ public class Control
         Movie movie = this.movieFormat(movieData); //Converts strings to Movie object
         model.postMovie(movie); //Add the movie to the user's list
 
-        this.updateView();
+        this.updateView(); //Update de buffer of the visualization side
     }
 
     public void updateView()
@@ -104,9 +93,37 @@ public class Control
         view.updateData(this.userName, model.getMoviesTitles()); //Update the data to visualize
     }
 
-    public void registerUser(String userName, String lastName, String password)
+    public void registerUser()
     {
-        model.newUser(userName, lastName, password);
+        String password;
+
+        view.registrationScreen();
+
+        view.userInput();
+        this.userName = scanner.next();
+
+        view.lastNameInput();
+        String lastName = scanner.next();
+
+        view.passInput();
+        password = scanner.next();
+
+        if(model.checkUser(userName, "", "2")) //Option:1 Check user and pass, Option: 2 check only username
+        {
+            System.out.println("Error: usuario ya registrado");
+            System.out.println(" ");
+            System.out.println(" ");
+            System.out.println(" ");
+        }
+        else
+        {
+            model.newUser(userName, lastName, password);
+            System.out.println("Usuario registrado correctamente");
+            System.out.println(" ");
+            System.out.println(" ");
+            System.out.println(" ");
+        }
+
     }
 
     private Movie movieFormat(String[] movieData)

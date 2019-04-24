@@ -48,7 +48,7 @@ public class Model extends ContentMedia
         return false;
     }
 
-    protected boolean checkUser(String name, String password)
+    protected boolean checkUser(String name, String password, String option)
     {
         User user;
         String userId = "";
@@ -57,15 +57,34 @@ public class Model extends ContentMedia
         for (int i = 1 ; i <= this.countUsers(); i++)
         {
             user = this.getData(String.valueOf(i));
-            if (password.equals(user.getPassword()) && name.equals(user.getName())) //match
+
+            switch (option)
             {
-                userId = String.valueOf(i);
-                flagCheckUser = true;
-            }
-            else
-            {
-                userId = "";
-                flagCheckUser = false;
+                case "1":
+                    if (password.equals(user.getPassword()) && name.equals(user.getName())) //match
+                    {
+                        userId = String.valueOf(i);
+                        flagCheckUser = true;
+                    }
+                    else
+                    {
+                        userId = "";
+                        flagCheckUser = false;
+                    }
+                    break;
+                case "2":
+                    if (name.equals(user.getName())) //User name match
+                    {
+                        userId = String.valueOf(i);
+                        flagCheckUser = true;
+                    }
+                    else
+                    {
+                        userId = "";
+                        flagCheckUser = false;
+                    }
+                    break;
+
             }
 
         }
