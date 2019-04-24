@@ -18,6 +18,7 @@ public class ContentMedia
     {
         content = new HashMap<String, List<User>>();
 
+        //Test data
         User userTest = new User("Roger", "Tres", "macaco23", "23/04/2019");
         List<String> tags = new ArrayList<>();
         tags.add("Terror");

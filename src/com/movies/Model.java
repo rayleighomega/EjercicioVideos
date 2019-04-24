@@ -1,5 +1,6 @@
 package com.movies;
 
+import java.time.Instant;
 import java.util.*;
 
 /**
@@ -18,16 +19,22 @@ public class Model extends ContentMedia
         //Creates the fake database when the model object is created
     }
 
-    public List<Movie> getVideos(String userId)
+    protected List<String> getMoviesTitles()
     {
-        User dataObj = this.getData(userId); //Get the base object from the database
+        User userData = this.getData(this.userId); //Get the base object from the database
+        List<Movie> moviesList = userData.getMoviesList();
+        List<String> moviesTitles = new ArrayList<>();
 
-        return dataObj.getMovies(); //get the useful field to the method
+        for (Movie movie : moviesList)
+        {
+            moviesTitles.add(movie.getTitle());
+        }
+        return moviesTitles; //Get the useful list of movies objects
     }
 
-    public boolean postVideo(Movie movie)
+    protected boolean postMovie(Movie movie)
     {
-        User dataObj = this.getData(userId); //Get the base object from the database
+        User dataObj = this.getData(this.userId); //Get the base object from the database
 
         try
         {
@@ -41,38 +48,73 @@ public class Model extends ContentMedia
         return false;
     }
 
-    public boolean checkUser(String name, String password)
+    protected boolean checkUser(String name, String password)
     {
         User user;
+        String userId = "";
+        Boolean flagCheckUser = false;
 
         for (int i = 1 ; i <= this.countUsers(); i++)
         {
             user = this.getData(String.valueOf(i));
             if (password.equals(user.getPassword()) && name.equals(user.getName())) //match
             {
-                return true;
+                userId = String.valueOf(i);
+                flagCheckUser = true;
             }
             else
             {
-                return false;
+                userId = "";
+                flagCheckUser = false;
             }
 
         }
-        return false;
+
+        this.userId = userId; //Stores the user id for further connections into the db
+
+        return flagCheckUser;
     }
 
-    public String newUser(String name, String lastName, String password, String regDate) {
+    protected void logout()
+    {
+        this.userId = "";
+    }
 
-        User user = new User(name, lastName, password, regDate);
+    protected String getUserId(String name, String password)
+    {
+        User user;
+        String userId = "";
 
-        this.addData(userId, user);
+        for (int i = 1 ; i <= this.countUsers(); i++)
+        {
+            user = this.getData(String.valueOf(i));
+
+            if (password.equals(user.getPassword()) && name.equals(user.getName())) //match
+            {
+                userId = String.valueOf(i);
+            }
+            else
+            {
+                userId = "";
+            }
+        }
+
+        this.userId = userId; //Stores the user id for further connections into the db
+
+        return userId;
+    }
+
+    protected String newUser(String userName, String lastName, String password)
+    {
+        User user = new User(userName, lastName, password, Instant.now().toString());
 
         this.userId = String.valueOf(this.countUsers()+1);
+        this.addData(this.userId, user);
 
-        return "";
+        return userId;
     }
 
-    public class ExceptionDatabase extends RuntimeException
+    protected class ExceptionDatabase extends RuntimeException
     {
         public ExceptionDatabase(String errorMessage, Throwable err)
         {

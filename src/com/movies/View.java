@@ -1,5 +1,5 @@
 package com.movies;
-import java.lang.reflect.Array;
+
 import java.util.*;
 
 public class View {
@@ -27,11 +27,16 @@ public class View {
         System.out.println("----------------------------------------");
         System.out.println(" ");
         System.out.println("Lista de videos:");
+        System.out.println("****************************************");
 
         for (String mov : this.getMoviesList())
         {
             System.out.println(mov);
         }
+
+        System.out.println(" ");
+        System.out.println("----------------------------------");
+        System.out.println("Pulsa 1 y luego Enter para volver al menu principal");
     }
 
     public void updateData(String userName, List<String> moviesList)
@@ -40,7 +45,7 @@ public class View {
         this.setMoviesList(moviesList);
     }
 
-    public void updateDataPrint(String userName, List<String> moviesList)
+    public void updateDataPrint(String userName, List<String>  moviesList)
     {
         this.setUserName(userName);
         this.setMoviesList(moviesList);
@@ -56,9 +61,10 @@ public class View {
         System.out.println("            Usuario: "+ this.getUserName());
         System.out.println("----------------------------------------");
         System.out.println(" ");
-        System.out.println("Elige una opción: ");
+        System.out.println("Elige una opción, introduce el número y luego Enter");
         System.out.println("1. Añadir un video");
         System.out.println("2. Obtener lista de videos");
+        System.out.println("3. Logout");
     }
 
     public String[] addMovie()
@@ -75,14 +81,14 @@ public class View {
         System.out.println(" ");
 
         System.out.print("Url: ");
-        movieData[0] = scanner.next();
+        movieData[0] = scanner.nextLine();
         System.out.print("Titulo: ");
-        movieData[1] = scanner.next();
+        movieData[1] = scanner.nextLine();
         System.out.print("Tags (espacio para separar): ");
-        movieData[2] = scanner.next();
-
-        System.out.println("################################");
-        System.out.println("Pulsa 1 para volver al menu principal");
+        movieData[2] = scanner.nextLine();
+        System.out.println(" ");
+        System.out.println("----------------------------------");
+        System.out.println("Pulsa 1 y luego Enter para volver al menu principal");
 
         return movieData;
 
@@ -94,9 +100,17 @@ public class View {
         System.out.println("            Inicio de sesion");
         System.out.println("----------------------------------------");
         System.out.println(" ");
-        System.out.println("Introduce usuario: ");
-        System.out.println("Introduce contraseña: ");
+        System.out.println("1. Login con usuario existente");
+        System.out.println("2. Crea un nuevo usuario");
+        System.out.println("----------------------------------------");
         System.out.println(" ");
+
+    }
+
+    public void registrationScreen()
+    {
+        System.out.println("----------------------------------------");
+        System.out.println("            Registro nuevo usuario");
         System.out.println("----------------------------------------");
         System.out.println(" ");
         System.out.println(" ");
@@ -110,6 +124,11 @@ public class View {
     public void passInput()
     {
         System.out.print("Contraseña: ");
+    }
+
+    public void lastNameInput()
+    {
+        System.out.print("Apellido: ");
     }
 
     public void badUser()
@@ -133,7 +152,7 @@ public class View {
         this.userName = userName;
     }
 
-    public List<String> getMoviesList()
+    public List<String>  getMoviesList()
     {
         return moviesList;
     }

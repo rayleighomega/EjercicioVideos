@@ -1,6 +1,6 @@
 package com.movies;
 
-import java.nio.CharBuffer;
+import java.time.Instant;
 import java.util.*;
 
 /**
@@ -8,16 +8,18 @@ import java.util.*;
  */
 public class Control
 {
+    //Create a model
+    Model model = new Model();
 
-    Model m = new Model();
+    //Internal control variables like login status and current login
+    private boolean loginStatus;
+    private String userName;
 
-    public boolean loginStatus;
-    public String userName;
-
+    //Data input from console
     Scanner scanner = new Scanner(System.in);
 
-    View v;
-    Boolean flagMain = false;
+    //User interface and control variables
+    View view;
     Boolean flagAddMovie = false;
     Boolean flagViewMovies = false;
 
@@ -29,30 +31,99 @@ public class Control
         this.loginStatus = loginStatus;
         this.userName = userName;
 
-        v = new View(); //Create a new view for visualization
+        view = new View(); //Create a new view for visualization
 
         this.waiting(); //Wait for a user action
     }
 
-    public void login(String user, String password)
+    public boolean login()
     {
+        view.loginScreen();
 
+        String option = scanner.next();
+        String password;
+
+        switch (option)
+        {
+            case "1" :
+                view.userInput();
+                this.userName = scanner.next();
+                view.passInput();
+                password = scanner.next();
+
+                if(model.checkUser(userName, password))
+                {
+                    loginStatus = true;
+                }
+                else
+                {
+                    loginStatus = false;
+                    view.badUser();
+                    scanner.next();
+                }
+                break;
+            case "2":
+                view.registrationScreen();
+
+                view.userInput();
+                this.userName = scanner.next();
+
+                view.lastNameInput();
+                String lastName = scanner.next();
+
+                view.passInput();
+                password = scanner.next();
+
+                model.newUser(userName, lastName, password);
+        }
+
+
+        return loginStatus;
     }
 
-    public void uploadMovie(Movie movie)
+    public boolean logout()
     {
-        // TODO implement here
+        this.userName = "";
+        this.loginStatus = false;
+        model.logout();
+
+        return true;
     }
 
+    private void uploadMovie()
+    {
+        String[] movieData = view.addMovie(); //Call for visualization and user input
+        Movie movie = this.movieFormat(movieData); //Converts strings to Movie object
+        model.postMovie(movie); //Add the movie to the user's list
+
+        this.updateView();
+    }
 
     public void updateView()
     {
-
+        view.updateData(this.userName, model.getMoviesTitles()); //Update the data to visualize
     }
 
-    public void registerUser(String user, String lastName, String password)
+    public void registerUser(String userName, String lastName, String password)
     {
-        // TODO implement here
+        model.newUser(userName, lastName, password);
+    }
+
+    private Movie movieFormat(String[] movieData)
+    {
+            Movie movie;
+            List<String> tags = new ArrayList<>();
+
+            String[] tagsString = movieData[2].split(" ");
+
+            for (String tag : tagsString)
+            {
+                tags.add(tag);
+            }
+
+            movie = new Movie(movieData[0], movieData[1], tags);
+
+            return movie;
     }
 
     public void waiting()
@@ -61,22 +132,20 @@ public class Control
 
         while (true)
         {
-
             if(this.loginStatus)
             {
-                flagMain = true;
+                view.setUserName(this.userName);
+                view.MainScreen();
 
-                while (flagMain)
+                c = scanner.next();
+
+                c.equals("1");
+
+                switch (c)
                 {
-                    v.MainScreen();
-                    c = scanner.next();
-
-                    if (c.equals("1")) //Add video
-                    {
-                        String[] movieData = v.addMovie();
+                    case "1" :
                         flagAddMovie = true;
-
-                        m.postVideo(userId, )
+                        this.uploadMovie(); //call to add
 
                         while (flagAddMovie)
                         {
@@ -84,32 +153,40 @@ public class Control
 
                             if (c.equals("1")) //Back to main
                             {
-                                flagMain = true;
                                 flagAddMovie = false;
                             }
                         }
-                    }
+
+                        break;
+                    case "2":
+                        flagViewMovies = true;
+
+                        while (flagViewMovies)
+                        {
+                            this.updateView(); //Update data buffer
+                            view.printMovies(); //Print data from buffer
+                            c = scanner.next();
+
+                            if (c.equals("1")) //Back to main
+                            {
+                                flagViewMovies = false;
+                            }
+                        }
+                        break;
+                    case "3":
+
+                        if(this.logout())
+                        {
+                            flagViewMovies = false;
+                        }
+
+                        break;
                 }
 
             }
             else
             {
-                v.loginScreen();
-                v.userInput();
-                userName = scanner.next();
-                v.passInput();
-                String password = scanner.next();
-
-                if(m.checkUser(userName, password))
-                {
-                    loginStatus = true;
-                }
-                else
-                {
-                    loginStatus = false;
-                    v.badUser();
-                    scanner.next();
-                }
+                this.login(); //Login Screen
             }
         }
     }

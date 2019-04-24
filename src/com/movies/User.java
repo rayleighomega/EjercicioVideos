@@ -72,7 +72,7 @@ public class User
         this.regDate = regDate;
     }
 
-    public List<Movie> getMovies()
+    public List<Movie> getMoviesList()
     {
         return movies;
     }
