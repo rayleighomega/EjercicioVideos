@@ -58,14 +58,12 @@ public class Control
                 else
                 {
                     loginStatus = false;
-                    view.badUser();
-                    scanner.next();
+                    view.userBad();
                 }
                 break;
             case "2":
                 this.registerUser();
         }
-
 
         return loginStatus;
     }
@@ -90,7 +88,7 @@ public class Control
 
     public void updateView()
     {
-        view.updateData(this.userName, model.getMoviesTitles()); //Update the data to visualize
+        view.updateData(this.userName, model.getMoviesTitles(), model.getMoviesURL(), model.getMoviesTags()); //Update the data to visualize
     }
 
     public void registerUser()
@@ -110,18 +108,12 @@ public class Control
 
         if(model.checkUser(userName, "", "2")) //Option:1 Check user and pass, Option: 2 check only username
         {
-            System.out.println("Error: usuario ya registrado");
-            System.out.println(" ");
-            System.out.println(" ");
-            System.out.println(" ");
+            view.userNotAvailable();
         }
         else
         {
             model.newUser(userName, lastName, password);
-            System.out.println("Usuario registrado correctamente");
-            System.out.println(" ");
-            System.out.println(" ");
-            System.out.println(" ");
+            view.userRegistrationOk();
         }
 
     }
@@ -181,7 +173,7 @@ public class Control
                         while (flagViewMovies)
                         {
                             this.updateView(); //Update data buffer
-                            view.printMovies(); //Print data from buffer
+                            view.printMovies("all"); //Print data from buffer
                             c = scanner.next();
 
                             if (c.equals("1")) //Back to main

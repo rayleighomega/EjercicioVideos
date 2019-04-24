@@ -17,19 +17,34 @@ public class ContentMedia
     public ContentMedia()
     {
         content = new HashMap<String, List<User>>();
+        Movie movieTest;
+
 
         //Test data
         User userTest = new User("Roger", "Tres", "macaco23", "23/04/2019");
-        List<String> tags = new ArrayList<>();
-        tags.add("Terror");
-        tags.add("Comedia");
-        tags.add("Culto");
-        Movie movieTest = new Movie("www.cinesinlimites.org", "La traca final", tags);
 
+        List<String> tags1 = new ArrayList<>();
+        tags1.add("Terror");
+        tags1.add("Comedia");
+        tags1.add("Culto");
+        movieTest = new Movie("www.cinesinlimites.org", "La traca final", tags1);
+        userTest.addMovie(movieTest);
+
+        List<String> tags2 = new ArrayList<>();
+        tags2.add("Sci-Fi");
+        tags2.add("Drama");
+        tags2.add("Drogas");
+        movieTest = new Movie("www.locopeliculas.com", "El padre de todo", tags2);
+        userTest.addMovie(movieTest);
+
+        List<String> tags3 = new ArrayList<>();
+        tags3.add("Gore");
+        tags3.add("UFO");
+        tags3.add("Vejez");
+        movieTest = new Movie("www.todopelis.nu", "La venda del abuelo", tags3);
         userTest.addMovie(movieTest);
 
         content.put("1", userTest);
-
     }
 
     /**

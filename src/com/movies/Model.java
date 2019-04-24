@@ -32,6 +32,32 @@ public class Model extends ContentMedia
         return moviesTitles; //Get the useful list of movies objects
     }
 
+    protected List<String> getMoviesURL()
+    {
+        User userData = this.getData(this.userId); //Get the base object from the database
+        List<Movie> moviesList = userData.getMoviesList();
+        List<String> moviesTitles = new ArrayList<>();
+
+        for (Movie movie : moviesList)
+        {
+            moviesTitles.add(movie.getUrl());
+        }
+        return moviesTitles; //Get the useful list of movies objects
+    }
+
+    protected List<String> getMoviesTags()
+    {
+        User userData = this.getData(this.userId); //Get the base object from the database
+        List<Movie> moviesList = userData.getMoviesList();
+        List<String> moviesTagsList = new ArrayList<>();
+
+        for (Movie movie : moviesList)
+        {
+            moviesTagsList.add(movie.getTags().toString());
+        }
+        return moviesTagsList; //Get the useful list of movies objects
+    }
+
     protected boolean postMovie(Movie movie)
     {
         User dataObj = this.getData(this.userId); //Get the base object from the database

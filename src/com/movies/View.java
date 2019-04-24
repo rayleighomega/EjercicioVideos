@@ -6,6 +6,9 @@ public class View {
 
     private String userName;
     private List<String> moviesList;
+    private List<String> urlsList;
+    private List<String> tagsList;
+    private Scanner scanner = new Scanner(System.in);
 
     /**
      * Default constructor
@@ -18,7 +21,7 @@ public class View {
     /**
      * Methods
      */
-    public void printMovies()
+    public void printMovies(String option)
     {
         clearConsole();
 
@@ -26,16 +29,60 @@ public class View {
         System.out.println("            Usuario: "+ this.getUserName());
         System.out.println("----------------------------------------");
         System.out.println(" ");
-        System.out.println("Lista de videos:");
-        System.out.println("****************************************");
+        System.out.println("Lista de videos");
 
-        for (String mov : this.getMoviesList())
+        switch (option)
         {
-            System.out.println(mov);
+            case "simple":
+                for (String mov : this.getMoviesList())
+                {
+                    System.out.println(mov);
+                }
+                break;
+            case "all":
+                String printFormat = "| %-28s | %-28s | %-28s |%n";
+
+                System.out.format(" ------------------------------ ------------------------------ ------------------------------ %n");
+                System.out.format("| Titulo                       | URL                          | Tags                         |%n");
+                System.out.format(" ------------------------------ ------------------------------ ------------------------------ %n");
+
+                String[] outputList1 = new String[this.getMoviesList().size()];
+                String[] outputList2 = new String[this.getMoviesList().size()];
+                String[] outputList3 = new String[this.getMoviesList().size()];
+
+                int i = 0;
+                for (String mov : this.getMoviesList())
+                {
+                    outputList1[i] = mov;
+                    i++;
+                }
+
+                i = 0;
+                for (String url : this.getUrlsList())
+                {
+                    outputList2[i] = url;
+                    i++;
+                }
+
+                i = 0;
+                for (String tags : this.getTagsList()) //List<String> was converted to Strings in the model method
+                {
+                    outputList3[i] = tags;
+                    i++;
+                }
+
+                for (i = 0; i < this.getMoviesList().size(); i++)
+                {
+                    System.out.format(printFormat, outputList1[i], outputList2[i], outputList3[i]);
+                }
+                System.out.format(" ------------------------------ ------------------------------ ------------------------------ ");
+
+                break;
         }
 
-        System.out.println(" ");
-        System.out.println("----------------------------------");
+
+        System.out.format(" %n");
+        System.out.format(" %n");
         System.out.println("Pulsa 1 y luego Enter para volver al menu principal");
     }
 
@@ -45,12 +92,12 @@ public class View {
         this.setMoviesList(moviesList);
     }
 
-    public void updateDataPrint(String userName, List<String>  moviesList)
+    public void updateData(String userName, List<String> moviesList, List<String> urlsList, List<String> tagsList)
     {
         this.setUserName(userName);
         this.setMoviesList(moviesList);
-
-        this.printMovies();
+        this.setUrlsList(urlsList);
+        this.setTagsList(tagsList);
     }
 
     public void MainScreen()
@@ -131,10 +178,27 @@ public class View {
         System.out.print("Apellido: ");
     }
 
-    public void badUser()
+    public void userBad()
     {
         System.out.println("Error: Usuario no o contraseña incorrectos ...");
         System.out.println("Pulsa cualquier tecla para continuar");
+        scanner.next();
+    }
+
+    public void userNotAvailable()
+    {
+        System.out.println("Error: usuario ya registrado");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+    }
+
+    public void userRegistrationOk()
+    {
+        System.out.println("Error: usuario ya registrado");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
     }
 
     public final static void clearConsole()
@@ -160,5 +224,25 @@ public class View {
     public void setMoviesList(List<String> moviesList)
     {
         this.moviesList = moviesList;
+    }
+
+    public List<String> getUrlsList()
+    {
+        return urlsList;
+    }
+
+    public void setUrlsList(List<String> urlsList)
+    {
+        this.urlsList = urlsList;
+    }
+
+    public List<String> getTagsList()
+    {
+        return tagsList;
+    }
+
+    public void setTagsList(List<String> tagsList)
+    {
+        this.tagsList = tagsList;
     }
 }
