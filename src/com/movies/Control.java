@@ -1,6 +1,5 @@
 package com.movies;
 
-import java.time.Instant;
 import java.util.*;
 
 /**
@@ -9,7 +8,7 @@ import java.util.*;
 public class Control
 {
     //Create a model
-    Model model = new Model();
+    private Model model = new Model();
 
     //Internal control variables like login status and current login
     private boolean loginStatus;
@@ -19,9 +18,9 @@ public class Control
     Scanner scanner = new Scanner(System.in);
 
     //User interface and control variables
-    View view;
-    Boolean flagAddMovie = false;
-    Boolean flagViewMovies = false;
+    private View view;
+    private Boolean flagAddMovie = false;
+    private Boolean flagViewMovies = false;
 
     /**
      * Default constructor
@@ -36,7 +35,7 @@ public class Control
         this.waiting(); //Wait for a user action
     }
 
-    public boolean login()
+    private boolean login()
     {
         view.loginScreen();
 
@@ -68,7 +67,7 @@ public class Control
         return loginStatus;
     }
 
-    public boolean logout()
+    private boolean logout()
     {
         this.userName = "";
         this.loginStatus = false;
@@ -86,12 +85,12 @@ public class Control
         this.updateView(); //Update de buffer of the visualization side
     }
 
-    public void updateView()
+    private void updateView()
     {
         view.updateData(this.userName, model.getMoviesTitles(), model.getMoviesURL(), model.getMoviesTags()); //Update the data to visualize
     }
 
-    public void registerUser()
+    private void registerUser()
     {
         String password;
 
@@ -135,7 +134,7 @@ public class Control
             return movie;
     }
 
-    public void waiting()
+    private void waiting()
     {
         String c;
 
