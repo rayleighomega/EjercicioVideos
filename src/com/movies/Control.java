@@ -61,7 +61,7 @@ public class Control
                 }
                 break;
             case "2":
-                this.registerUser();
+                this.userRegistration();
         }
 
         return loginStatus;
@@ -76,6 +76,7 @@ public class Control
         return true;
     }
 
+    //NOTE: Printing of data uses a buffer to store the list of movies
     private void uploadMovie()
     {
         String[] movieData = view.addMovie(); //Call for visualization and user input
@@ -85,12 +86,13 @@ public class Control
         this.updateView(); //Update de buffer of the visualization side
     }
 
+    //Only used for buffer update
     private void updateView()
     {
         view.updateData(this.userName, model.getMoviesTitles(), model.getMoviesURL(), model.getMoviesTags()); //Update the data to visualize
     }
 
-    private void registerUser()
+    private void userRegistration()
     {
         String password;
 
@@ -147,46 +149,21 @@ public class Control
 
                 c = scanner.next();
 
-                c.equals("1");
-
                 switch (c)
                 {
                     case "1" :
-                        flagAddMovie = true;
                         this.uploadMovie(); //call to add
-
-                        while (flagAddMovie)
-                        {
-                            c = scanner.next();
-
-                            if (c.equals("1")) //Back to main
-                            {
-                                flagAddMovie = false;
-                            }
-                        }
 
                         break;
                     case "2":
-                        flagViewMovies = true;
 
-                        while (flagViewMovies)
-                        {
-                            this.updateView(); //Update data buffer
-                            view.printMovies("all"); //Print data from buffer
-                            c = scanner.next();
+                        this.updateView(); //Update data buffer
+                        view.printMovies("all"); //Print data from buffer
 
-                            if (c.equals("1")) //Back to main
-                            {
-                                flagViewMovies = false;
-                            }
-                        }
                         break;
                     case "3":
 
-                        if(this.logout())
-                        {
-                            flagViewMovies = false;
-                        }
+                        this.logout();
 
                         break;
                 }

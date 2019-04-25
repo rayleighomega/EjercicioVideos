@@ -16,11 +16,12 @@ public class ContentMedia
      */
     public ContentMedia()
     {
+        //Object for the database
         content = new HashMap<String, List<User>>();
-        Movie movieTest;
-
 
         //Test data
+        Movie movieTest;
+
         User userTest = new User("Roger", "Tres", "macaco23", "23/04/2019");
 
         List<String> tags1 = new ArrayList<>();

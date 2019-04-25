@@ -77,6 +77,10 @@ public class View {
                 }
                 System.out.format(" ------------------------------ ------------------------------ ------------------------------ ");
 
+                System.out.println(" ");
+                System.out.println("Pulsa la tecla Enter para continuar ...");
+                scanner.nextLine();
+
                 break;
         }
 
@@ -134,8 +138,8 @@ public class View {
         System.out.print("Tags (espacio para separar): ");
         movieData[2] = scanner.nextLine();
         System.out.println(" ");
-        System.out.println("----------------------------------");
-        System.out.println("Pulsa 1 y luego Enter para volver al menu principal");
+        System.out.println("Pulsa la tecla Enter para continuar ...");
+        scanner.nextLine();
 
         return movieData;
 
@@ -180,25 +184,26 @@ public class View {
 
     public void userBad()
     {
+        System.out.println(" ");
         System.out.println("Error: Usuario no o contraseña incorrectos ...");
-        System.out.println("Pulsa cualquier tecla para continuar");
-        scanner.next();
+        System.out.println("Pulsa la tecla Enter para continuar ...");
+        scanner.nextLine();
     }
 
     public void userNotAvailable()
     {
+        System.out.println(" ");
         System.out.println("Error: usuario ya registrado");
-        System.out.println(" ");
-        System.out.println(" ");
-        System.out.println(" ");
+        System.out.println("Pulsa la tecla Enter para continuar ...");
+        scanner.nextLine();
     }
 
     public void userRegistrationOk()
     {
-        System.out.println("Error: usuario ya registrado");
         System.out.println(" ");
-        System.out.println(" ");
-        System.out.println(" ");
+        System.out.println("Usuario registrado correctamente");
+        System.out.println("Pulsa la tecla Enter para continuar ...");
+        scanner.nextLine();
     }
 
     public final static void clearConsole()
